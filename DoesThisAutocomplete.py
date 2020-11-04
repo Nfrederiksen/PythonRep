@@ -39,7 +39,7 @@ class Solution:
 
 
 s = Solution()
-s.build(['dog', 'dark', 'cat', 'ass', 'door', 'dodge', 'doctor', 'dolittle', 'fog', 'ford', 'force', 'fan'])
+s.build(['dog', 'dark', 'cat', 'ass', 'door', 'dodge', 'doctor', 'doom', 'dooptidoo', 'fog', 'ford', 'force', 'fan'])
 print(s.autocomplete('fo'))
 h = {}
 test = h
