@@ -1,10 +1,12 @@
 import tensorflow as tf
 import numpy as np
 
+
 def init_inputs(input_size):
     inputs = tf.placeholder(tf.float32, shape=(None, input_size), name='inputs')
     print('I used tf.placeholder Nice!')
     return inputs
+
 
 def init_labels(output_size):
     labels = tf.placeholder(tf.int32, shape=(None, output_size), name='labels')
@@ -15,6 +17,7 @@ def model_layers(inputs, output_size):
     logits = tf.layers.dense(inputs, output_size, name='logits')
     return logits
     pass
+
 
 def get_accuracy(logits, labels):
     # Get the odds.
@@ -32,6 +35,7 @@ def get_accuracy(logits, labels):
 
     return accuracy
 
+
 def optimize_loss(logits, labels):
     # To get our loss parameter, we need labels to be in floats
     labels_float = tf.cast(labels, tf.float32)
@@ -45,5 +49,3 @@ def optimize_loss(logits, labels):
     train_op = adam.minimize(loss)
 
     pass
-
-
