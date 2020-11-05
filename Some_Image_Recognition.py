@@ -12,15 +12,44 @@ def decode_image(filename, image_type, resize_shape, channels=0):
         else:
             decoded_image = tf.image.decode_image(value, channels=channels)
 
+        if resize_shape is not None and image_type in ['png', 'jpeg']:
+            decoded_image = tf.image.resize(decoded_image, resize_shape)
+
         return decoded_image
 
+
+# Return a dataset created from the image file paths
+def get_dataset(image_paths, image_type, resize_shape, channels):
+    filename_tensor = tf.constant(image_paths)
+    dataset = tf.data.Dataset.from_tensor_slices(filename_tensor)
+
+    def _map_fn(filename):
+        return decode_image(filename, image_type, resize_shape, channels=channels)
+
+    return dataset.map(_map_fn)
+
+# Get the decoded image data from the input image file paths
+def get_image_data(image_paths, image_type=None, resize_shape=None, channels=0):
+    dataset = get_dataset(image_paths, image_type, resize_shape, channels)
+    # Make an Iterator for dataset
+    iterator = dataset.make_one_shot_iterator()
+    # Time to Extract
+    next_image = iterator.get_next()
+    # return a list of all our image pixel data
+    image_data_list = []
+    with tf.Session() as sess:
+        for i in range(len(image_paths)):
+            image_data = sess.run(next_image)
+            image_data_list.append(image_data)
+
+    return image_data_list
 
 def sess_playground():
     decoded_image = decode_image('BruceChandling.jpg', 'jpeg', [50, 50], channels=0)
     with tf.compat.v1.Session() as sess:
         print('Original: {}'.format(
             repr(sess.run(decoded_image))))  # Decoded image data
-        resized_img = tf.image.resize_images(decoded_image, (3, 2))
+        resized_img = tf.image.resize(decoded_image, (3, 2))
         print('Resized: {}'.format(
             repr(sess.run(resized_img))))
 
