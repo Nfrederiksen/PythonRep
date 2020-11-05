@@ -13,4 +13,13 @@ model.add(layer2)
 layer3 = Dense(3, activation='softmax')
 model.add(layer3)
 
-pass
+model.compile('adam', loss='categorical_crossentropy', metrics=['accuracy'])
+'''
+# predefined multiclass dataset
+train_output = model.fit(data, labels, batch_size=20, epochs=5)
+print(train_output.history)
+# predefined eval dataset
+print(model.evaluate(eval_data, eval_labels))
+# 3 new data observations
+print('{}'.format(repr(model.predict(new_data))))
+'''
