@@ -53,6 +53,23 @@ def sess_playground():
         print('Resized: {}'.format(
             repr(sess.run(resized_img))))
 
+
+class MNISTModel(object):
+    # Model Initialization
+    def __init__(self, input_dim, output_size):
+        self.input_dim = input_dim
+        self.output_size = output_size
+
+    # CNN Layers
+    def model_layers(self, inputs, is_training):
+        # Convert the input data, inputs, into NHWC format.
+        reshaped_inputs = tf.reshape(inputs, [-1, self.input_dim, self.input_dim, 1])
+        # Let's Get COnv LAyers! 32 filters - each 5x5 big.
+        conv1 = tf.layers.conv2d(reshaped_inputs, 32, [5, 5],
+                                 padding='same', activation=tf.nn.relu,
+                                 name='conv1')
+        pass
+
 sess_playground()
 pass
 
