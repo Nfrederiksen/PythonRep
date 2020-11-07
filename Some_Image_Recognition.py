@@ -71,6 +71,12 @@ class MNISTModel(object):
         # Time for max pooling!
         pool1 = tf.layers.max_pooling2d(conv1, [2, 2], 2, name='pool1')
 
+        # Additional Layers!
+        conv2 = tf.layers.conv2d(pool1, 64, [5, 5],
+                                 padding='same',
+                                 activation=tf.nn.relu,
+                                 name='conv2')
+        pool2 = tf.layers.max_pooling2d(conv2, [2, 2], 2, name='pool2')
         pass
 
 sess_playground()
