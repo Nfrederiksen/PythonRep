@@ -68,6 +68,9 @@ class MNISTModel(object):
         conv1 = tf.layers.conv2d(reshaped_inputs, 32, [5, 5],
                                  padding='same', activation=tf.nn.relu,
                                  name='conv1')
+        # Time for max pooling!
+        pool1 = tf.layers.max_pooling2d(conv1, [2, 2], 2, name='pool1')
+
         pass
 
 sess_playground()
