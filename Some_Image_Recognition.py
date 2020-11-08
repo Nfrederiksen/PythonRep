@@ -61,6 +61,11 @@ class MNISTModel(object):
         self.input_dim = input_dim
         self.output_size = output_size
 
+    # Apply dropout to final layer
+    def apply_dropout(self, dense, is_training):
+        dropout = tf.layers.dropout(dense, rate=0.4, training=is_training)
+        return dropout
+
     # Apply fully-connected layer
     def create_fc(self, pool2):
         # CODE HERE
@@ -91,6 +96,8 @@ class MNISTModel(object):
         pool2 = tf.layers.max_pooling2d(conv2, [2, 2], 2, name='pool2')
 
         dense = self.create_fc(pool2)
+        # Do the dropout
+        dropout = self.apply_dropout(dense,is_training)
 
 sess_playground()
 pass
