@@ -85,22 +85,18 @@ class MNISTModel(object):
         # Convert the input data, inputs, into NHWC format.
         reshaped_inputs = tf.reshape(inputs, [-1, self.input_dim, self.input_dim, 1])
         # Let's Get COnv LAyers! 32 filters - each 5x5 big.
-        conv1 = tf.layers.conv2d(reshaped_inputs, 32, [5, 5],
-                                 padding='same', activation=tf.nn.relu,
-                                 name='conv1')
+        conv1 = tf.layers.conv2d(reshaped_inputs, 32, [5, 5], padding='same', activation=tf.nn.relu, name='conv1')
         # Time for max pooling!
         pool1 = tf.layers.max_pooling2d(conv1, [2, 2], 2, name='pool1')
 
         # Additional Layers!
-        conv2 = tf.layers.conv2d(pool1, 64, [5, 5],
-                                 padding='same',
-                                 activation=tf.nn.relu,
-                                 name='conv2')
+        conv2 = tf.layers.conv2d(pool1, 64, [5, 5], padding='same', activation=tf.nn.relu, name='conv2')
         pool2 = tf.layers.max_pooling2d(conv2, [2, 2], 2, name='pool2')
-
+        # End it with a FC layer.
         dense = self.create_fc(pool2)
-        # Do the dropout
+        # Do the dropout (to reduce co-adaptation)
         dropout = self.apply_dropout(dense, is_training)
+        # Get the logits from the dropout.
         logits = self.get_logits(dropout)
         return logits
 
