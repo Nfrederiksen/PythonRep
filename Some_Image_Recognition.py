@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 
 # Decode image data from a file in TensorFlow
@@ -60,6 +61,17 @@ class MNISTModel(object):
         self.input_dim = input_dim
         self.output_size = output_size
 
+    # Apply fully-connected layer
+    def create_fc(self, pool2):
+        # CODE HERE
+        hwc = pool2.shape.as_list()[1:]
+        flattened_size = np.prod(hwc)
+        pool2_flat = tf.reshape(pool2, [-1, flattened_size])
+        dense = tf.layers.dense(pool2_flat, 1024, activation=tf.nn.relu, name='dense')
+        return dense
+
+
+
     # CNN Layers
     def model_layers(self, inputs, is_training):
         # Convert the input data, inputs, into NHWC format.
@@ -77,7 +89,8 @@ class MNISTModel(object):
                                  activation=tf.nn.relu,
                                  name='conv2')
         pool2 = tf.layers.max_pooling2d(conv2, [2, 2], 2, name='pool2')
-        pass
+
+        dense = self.create_fc(pool2)
 
 sess_playground()
 pass
