@@ -100,7 +100,7 @@ class MNISTModel(object):
 
         dense = self.create_fc(pool2)
         # Do the dropout
-        dropout = self.apply_dropout(dense,is_training)
+        dropout = self.apply_dropout(dense, is_training)
         logits = self.get_logits(dropout)
         return logits
 
