@@ -61,6 +61,11 @@ class MNISTModel(object):
         self.input_dim = input_dim
         self.output_size = output_size
 
+    # Get logits from the dropout layer
+    def get_logits(self, dropout):
+        logits = tf.layers.dense(dropout, self.output_size, name='logits')
+        return logits
+
     # Apply dropout to final layer
     def apply_dropout(self, dense, is_training):
         dropout = tf.layers.dropout(dense, rate=0.4, training=is_training)
@@ -74,8 +79,6 @@ class MNISTModel(object):
         pool2_flat = tf.reshape(pool2, [-1, flattened_size])
         dense = tf.layers.dense(pool2_flat, 1024, activation=tf.nn.relu, name='dense')
         return dense
-
-
 
     # CNN Layers
     def model_layers(self, inputs, is_training):
@@ -98,6 +101,8 @@ class MNISTModel(object):
         dense = self.create_fc(pool2)
         # Do the dropout
         dropout = self.apply_dropout(dense,is_training)
+        logits = self.get_logits(dropout)
+        return logits
 
 sess_playground()
 pass
