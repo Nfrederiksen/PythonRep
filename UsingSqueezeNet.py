@@ -89,11 +89,52 @@ class SqueezeNetModel(object):
             strides=2,
             name=name)
 
+    # Convert final convolution layer to logits
+    def get_logits(self, conv_layer):
+        # CODE HERE
+        avg_pool1 = tf.layers.average_pooling2d(
+            conv_layer, [
+            conv_layer.shape[1],
+            conv_layer.shape[2]
+            ],
+            1)
+        logits = tf.layers.flatten(avg_pool1, name='logits')
+        return logits
+
     # Model Layers
     # inputs: [batch_size, resize_dim, resize_dim, 3]
+    # Model Layers
     def model_layers(self, inputs, is_training):
-        # Initial conv-layer #1
-        conv1 = self.custom_conv2d(inputs, 64, [3, 3], name='conv1')
-        # Initial pool-layer #1
-        pool1 = self.custom_max_pooling2d(conv1, name='pool1')
-        pass
+        conv1 = self.custom_conv2d(
+            inputs,
+            64,
+            [3, 3],
+            'conv1')
+        pool1 = self.custom_max_pooling2d(
+            conv1,
+            'pool1')
+        fire_params1 = [
+            (32, 64, 'fire1'),
+            (32, 64, 'fire2')
+        ]
+        multi_fire1 = self.multi_fire_module(
+            pool1,
+            fire_params1)
+        pool2 = self.custom_max_pooling2d(
+            multi_fire1,
+            'pool2')
+        fire_params2 = [
+            (32, 128, 'fire3'),
+            (32, 128, 'fire4')
+        ]
+        multi_fire2 = self.multi_fire_module(
+            pool2,
+            fire_params2)
+        dropout1 = tf.layers.dropout(multi_fire2, rate=0.5,
+            training=is_training)
+        final_conv_layer = self.custom_conv2d(
+            dropout1,
+            self.output_size,
+            [1, 1],
+            'final_conv')
+        return self.get_logits(final_conv_layer)
