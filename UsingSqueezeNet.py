@@ -138,3 +138,27 @@ class SqueezeNetModel(object):
             [1, 1],
             'final_conv')
         return self.get_logits(final_conv_layer)
+
+    # Set up and run model training
+    def run_model_setup(self, inputs, labels):
+      logits = self.model_layers(inputs, is_training)
+      self.probs = tf.nn.softmax(logits, name='probs')
+      self.predictions = tf.argmax(
+          self.probs, axis=-1, name='predictions')
+      is_correct = tf.equal(
+          tf.cast(self.predictions, tf.int32),
+          labels)
+      is_correct_float = tf.cast(
+          is_correct,
+          tf.float32)
+      self.accuracy = tf.reduce_mean(
+          is_correct_float)
+      # calculate cross entropy
+      cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(
+          labels=labels,
+          logits=logits)
+      self.loss = tf.reduce_mean(
+          cross_entropy)
+      adam = tf.train.AdamOptimizer()
+      self.train_op = adam.minimize(
+          self.loss, global_step=self.global_step)
