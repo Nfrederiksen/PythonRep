@@ -100,3 +100,38 @@ class ResNetModel(object):
             for i in range(1, num_blocks):
                 block_output = block_fn(block_output, filters, 1, is_training, i)
             return block_output
+
+        # Model Layers
+        # inputs (channels_last): [batch_size, resize_dim, resize_dim, 3]
+        # inputs (channels_first): [batch_size, 3, resize_dim, resize_dim]
+
+    def model_layers(self, inputs, is_training):
+        # initial convolution layer
+        conv_initial = self.custom_conv2d(
+            inputs, self.filters_initial, 7, 2, name='conv_initial')
+        # pooling layer
+        curr_layer = tf.layers.max_pooling2d(
+            conv_initial, 3, 2, padding='same',
+            data_format=self.data_format,
+            name='pool_initial')
+        # stack the block layers
+        for i, num_blocks in enumerate(self.block_layer_sizes):
+            filters = self.filters_initial * 2 ** i
+            strides = self.block_strides[i]
+            # stack this block layer on the previous one
+            curr_layer = self.block_layer(
+                curr_layer, filters, strides,
+                num_blocks, is_training, i)
+        # pre-activation
+        pre_activated_final = self.pre_activation(curr_layer, is_training)
+        filter_size = int(pre_activated_final.shape[2])
+        # final pooling layer
+        avg_pool = tf.layers.average_pooling2d(
+            pre_activated_final,
+            filter_size,
+            1,
+            data_format=self.data_format)
+        final_layer = tf.layers.flatten(avg_pool)
+        # get logits from final layer
+        logits = tf.layers.dense(final_layer, self.output_size, name='logits')
+        return logits
