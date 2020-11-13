@@ -40,7 +40,7 @@ class Solution:
 
 s = Solution()
 s.build(['dog', 'dark', 'cat', 'ass', 'door', 'dodge', 'doctor', 'doom', 'dooptidoo', 'fog', 'ford', 'force', 'fan'])
-print(s.autocomplete('fo'))
+print(s.autocomplete('do'))
 h = {}
 test = h
 ch = "a"
