@@ -75,7 +75,6 @@ plt.plot(losses)
 plt.xlabel("EPOCHS")
 plt.ylabel("Loss value")
 plt.show()
-plt.savefig('output/legend.png')
 
 print("\nAfter training")
 print("weights:", W, "bias:", b)
