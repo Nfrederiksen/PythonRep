@@ -1,7 +1,7 @@
 import pandas as pd
 from keras.models import Sequential, load_model
 from keras.layers import Dense
-
+from keras.callbacks import EarlyStopping
 
 
 # read in training data
@@ -53,7 +53,7 @@ print("Compiling model for a binary classification task")
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 print("Succeeded")
 # fit the model [Step 4]
-model.fit(train_X, train_y, epochs=20, batch_size=30, verbose=1)
+model.fit(train_X, train_y, epochs=20, batch_size=30, validation_split=0.1, callbacks=[EarlyStopping(patience=2)], verbose=1)
 # model.save("titanic_model.h5")
 
 # [Step 4] evaluate the keras model on training data
