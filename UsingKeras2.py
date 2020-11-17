@@ -11,13 +11,13 @@ train_X = train_data.drop(["PassengerId", "Name", "Cabin", "Embarked", "Ticket",
 
 # assign an integer value of gender
 def assign_gender_integer(row):
-	if row['Gender'] == 'male':
+	if row['Sex'] == 'male':
 		return 1
 	else:
 		return 0
 
 # call the assign_gender_integer method to assign 1 to male and 0 to female
-train_X['Gender'] = train_X.apply(assign_gender_integer, axis=1)
+train_X['Sex'] = train_X.apply(assign_gender_integer, axis=1)
 print("Features\n:", train_X)
 
 # get the label
