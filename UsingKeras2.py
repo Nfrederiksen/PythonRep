@@ -38,7 +38,7 @@ n_cols = train_X.shape[1]
 # model for a binary classification to predict survival
 model = Sequential()
 # add a hidden layer with 32 nodes
-model.add(Dense(32, activation='relu', input_shape=(n_cols,)))
+model.add(Dense(32, activation='relu', input_dim=n_cols))
 # add a hidden layer with 64 nodes
 model.add(Dense(64, activation='relu'))
 
