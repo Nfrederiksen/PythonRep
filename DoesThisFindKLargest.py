@@ -24,5 +24,5 @@ class Solution(object):
         arr[index], arr[high] = arr[high], arr[index]
         return index
 
-print(Solution().findKthLargest([5,7,2,6,4,1,3], 3))
+print(Solution().findKthLargest([1,3,8,5], 3))
 # 5

@@ -85,7 +85,7 @@ class ResNetModel(object):
             conv1 = self.custom_conv2d(pre_activated1, filters, 1, 1)
             pre_activated2 = self.pre_activation(conv1, is_training)
             conv2 = self.custom_conv2d(pre_activated2, filters, 3, strides)
-            # CODE HERE
+            # CODE HEREvionlabs
             pre_activated3 = self.pre_activation(conv2, is_training)
             conv3 = self.custom_conv2d(pre_activated3, filters*4, 1, 1)
             return conv3 + shortcut
