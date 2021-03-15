@@ -4,8 +4,8 @@ import datetime
 import random
 
 """
-Title: An on-Terminal Blackjack game for 1-player. (A python OOP exercise)
-Author: Nicholas Frederiksen (Github: @Nfrederiksen) Frederiksen.
+Title: Alright so, this is an on-Terminal Blackjack game for 1-player. (A python OOP exercise)
+Author: Nicholas Frederiksen (Github: @Nfrederiksen) 
 
 """
 
