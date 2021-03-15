@@ -26,3 +26,17 @@ class Solution(object):
 
 print(Solution().findKthLargest([1,3,8,5], 3))
 # 5
+'''
+# Real World Quicksort. it's important to recurse on the smaller part, then loop (or tail-recurse, but that's another story) on the larger part.
+This way the range of each recursive call is at most half the range of the caller, and the maximum depth is O(log n)
+
+QUICKSORT(A, p, r)
+    while p < r
+        q = partition(A, p, r)
+        if (q-p <= r-q)
+            QUICKSORT(A, p, q - 1)
+            p = q+1
+        else
+            QUICKSORT(A, q + 1, r)
+            r = q-1
+ '''
