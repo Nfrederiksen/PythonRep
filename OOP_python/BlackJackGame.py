@@ -5,7 +5,7 @@ import random
 
 """
 Title: An on-Terminal Blackjack game for 1-player. (A python OOP exercise)
-Author: Nicholas Frederiksen (Github: @Nfrederiksen) Frederiksen.
+Author: Nicholas Frederiksen (Github: @Nfrederiksen)
 """
 
 # ----------------------------------
