@@ -346,7 +346,7 @@ class Game:
 
     def bust_check(self, hand):
         if hand.resolve_score() == 0:
-            # Hand is Bust, then auto-stand
+            # Hand is Bust, then auto-stand (^:^)
             self.__gameUI.bust_msg()
             hand.set_stand_state(True)
             self.stand(hand)
