@@ -419,7 +419,6 @@ class Game:
             self.__player.set_balance(1000)
             on_round = 1
             while True:
-                # ---- GAME: Start Screen ----
                 self.__gameUI.start_screen(on_round)
                 my_bet = self.__gameUI.get_bet_from_user()
                 self.__player.place_bet(my_bet)
@@ -433,7 +432,6 @@ class Game:
                 self.__dealer.add_hand(dealer_hand)
                 # Show cards to User
                 self.__gameUI.show_starting_hands()
-
                 # ---- GAME: Insurance Scenario ----
                 if dealer_hand.get_first_card_value() is 10 or dealer_hand.get_first_card_value() is 1:
                     self.__gameUI.offer_insurance_msg()
